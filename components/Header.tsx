@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { ShoppingBag, Heart, Search, Menu, X } from 'lucide-react';
-import { ViewState } from '../types';
+import { ViewState } from '../types.ts';
 
 interface HeaderProps {
   onCartToggle: () => void;
@@ -17,38 +16,29 @@ const Header: React.FC<HeaderProps> = ({ onCartToggle, cartCount, onNavigate, cu
   const navItems = [
     { label: 'Home', view: ViewState.HOME },
     { label: 'Shop All', view: ViewState.SHOP },
-    { label: 'Our Story', view: ViewState.HOME }, // Simple anchors for this demo
+    { label: 'Our Story', view: ViewState.HOME },
   ];
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-blush/20">
+    <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-lg border-b border-blush/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16 sm:h-20">
+        <div className="flex justify-between items-center h-20 sm:h-24">
+          
           {/* Mobile Menu Toggle */}
           <div className="flex items-center md:hidden">
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 text-charcoal hover:text-blush transition-colors"
-            >
+            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 text-charcoal hover:text-blush transition-colors">
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
 
-          {/* Logo */}
-          <div className="flex-shrink-0 cursor-pointer group" onClick={() => onNavigate(ViewState.HOME)}>
-            <h1 className="text-2xl sm:text-3xl font-serif italic text-charcoal group-hover:text-blush transition-colors">
-              Luna Loops
-            </h1>
-          </div>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex space-x-8">
-            {navItems.map((item) => (
+          {/* Desktop Navigation Left */}
+          <div className="hidden md:flex flex-1 space-x-8">
+            {navItems.slice(0, 2).map((item) => (
               <button
                 key={item.label}
                 onClick={() => onNavigate(item.view)}
-                className={`text-sm tracking-widest uppercase font-medium transition-colors ${
-                  currentView === item.view ? 'text-blush border-b border-blush' : 'text-charcoal hover:text-blush'
+                className={`text-[10px] tracking-[0.2em] uppercase font-semibold transition-all duration-300 ${
+                  currentView === item.view ? 'text-blush border-b-2 border-blush pb-1' : 'text-charcoal/60 hover:text-blush'
                 }`}
               >
                 {item.label}
@@ -56,29 +46,51 @@ const Header: React.FC<HeaderProps> = ({ onCartToggle, cartCount, onNavigate, cu
             ))}
           </div>
 
-          {/* Icons */}
-          <div className="flex items-center space-x-4">
+          {/* Logo Center */}
+          <div className="flex-shrink-0 cursor-pointer flex justify-center" onClick={() => onNavigate(ViewState.HOME)}>
+            <img 
+              src="https://raw.githubusercontent.com/stackblitz/stackblitz-images/main/luna-loops-logo.png" 
+              alt="Luna Loops Logo" 
+              className="h-12 sm:h-16 w-auto animate-float object-contain"
+              onError={(e) => {
+                // Fallback if image fails to load
+                e.currentTarget.style.display = 'none';
+                e.currentTarget.parentElement!.innerHTML = '<h1 class="text-2xl font-serif italic text-charcoal">Luna Loops</h1>';
+              }}
+            />
+          </div>
+
+          {/* Desktop Navigation Right + Icons */}
+          <div className="flex flex-1 justify-end items-center space-x-2 sm:space-x-6">
+            <div className="hidden lg:flex space-x-8 mr-8">
+              <button
+                onClick={() => onNavigate(ViewState.HOME)}
+                className="text-[10px] tracking-[0.2em] uppercase font-semibold text-charcoal/60 hover:text-blush transition-all duration-300"
+              >
+                Our Story
+              </button>
+            </div>
+            
             <button className="hidden sm:block p-2 text-charcoal hover:text-blush transition-colors">
-              <Search size={22} />
+              <Search size={20} strokeWidth={1.5} />
             </button>
-            <div className="relative group">
+            
+            <div className="relative">
               <button className="p-2 text-charcoal hover:text-blush transition-colors">
-                <Heart size={22} />
+                <Heart size={20} strokeWidth={1.5} />
               </button>
               {wishlistCount > 0 && (
-                <span className="absolute top-1 right-1 bg-blush text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+                <span className="absolute top-1 right-1 bg-blush text-white text-[9px] font-bold h-4 w-4 flex items-center justify-center rounded-full">
                   {wishlistCount}
                 </span>
               )}
             </div>
-            <div className="relative group">
-              <button
-                onClick={onCartToggle}
-                className="p-2 text-charcoal hover:text-blush transition-colors flex items-center"
-              >
-                <ShoppingBag size={22} />
+
+            <div className="relative">
+              <button onClick={onCartToggle} className="p-2 text-charcoal hover:text-blush transition-colors flex items-center">
+                <ShoppingBag size={20} strokeWidth={1.5} />
                 {cartCount > 0 && (
-                  <span className="absolute top-1 right-1 bg-blush text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+                  <span className="absolute top-1 right-1 bg-blush text-white text-[9px] font-bold h-4 w-4 flex items-center justify-center rounded-full">
                     {cartCount}
                   </span>
                 )}
@@ -88,23 +100,21 @@ const Header: React.FC<HeaderProps> = ({ onCartToggle, cartCount, onNavigate, cu
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu Sidebar (Simplified) */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white border-b border-blush/20 pb-4 px-4 animate-in fade-in slide-in-from-top-4 duration-300">
-          <div className="flex flex-col space-y-4 pt-2">
-            {navItems.map((item) => (
-              <button
-                key={item.label}
-                onClick={() => {
-                  onNavigate(item.view);
-                  setIsMenuOpen(false);
-                }}
-                className="text-left text-lg font-serif text-charcoal hover:text-blush transition-colors"
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
+        <div className="md:hidden bg-white border-b border-blush/10 p-4 space-y-4 animate-in slide-in-from-top duration-300">
+          {navItems.map((item) => (
+            <button
+              key={item.label}
+              onClick={() => {
+                onNavigate(item.view);
+                setIsMenuOpen(false);
+              }}
+              className="block w-full text-left text-sm uppercase tracking-widest text-charcoal font-medium py-2"
+            >
+              {item.label}
+            </button>
+          ))}
         </div>
       )}
     </nav>

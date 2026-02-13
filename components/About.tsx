@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Heart, Sparkles, Leaf } from 'lucide-react';
 
@@ -42,11 +41,11 @@ const About: React.FC = () => {
         <div className="mt-20 max-w-3xl mx-auto flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-12">
           <div className="relative">
             <div className="absolute inset-0 bg-blush/20 rounded-full translate-x-4 translate-y-4 -z-10"></div>
-            <img src="https://images.unsplash.com/photo-1595959183082-a8a64bd47c2a?auto=format&fit=crop&q=80&w=600" alt="Luna Loops Founder" className="w-64 h-64 rounded-full object-cover shadow-xl border-8 border-white" />
+            <img src="https://images.unsplash.com/photo-1611095973763-4140195a243d?auto=format&fit=crop&q=80&w=600" alt="Luna Loops Aesthetic" className="w-64 h-64 rounded-full object-cover shadow-xl border-8 border-white" />
           </div>
           <div className="text-left">
             <p className="text-charcoal/80 italic text-lg leading-relaxed mb-4">
-              "Luna Loops started as a solution for my own curly hair journey. I wanted something that looked like jewelry for the hair, but acted like a protective barrier."
+              "Luna Loops started as a solution for my own hair journey. I wanted something that looked like jewelry for the hair, but acted like a protective barrier."
             </p>
             <p className="font-serif text-charcoal">— Sarah, Founder of Luna Loops</p>
           </div>
